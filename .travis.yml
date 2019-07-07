@@ -1,0 +1,38 @@
+#
+# Template #2: The project is intended to by used as a library with examples
+#
+
+language: python
+python:
+    - "2.7"
+
+sudo: false
+
+addons:
+  apt:
+    packages:
+      - doxygen
+
+cache:
+    directories:
+        - "~/.platformio"
+
+env:
+    - PLATFORMIO_CI_SRC=examples/motors
+    - PLATFORMIO_CI_SRC=examples/motors
+
+install:
+    - pip install -U platformio
+    - platformio update
+
+script:
+    - platformio ci --lib="." --project-conf="./platformio.ini"
+    - doxygen Doxyfile
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  local_dir: doc/html
+  github_token: $GH_REPO_TOKEN
+  on:
+    branch: master
