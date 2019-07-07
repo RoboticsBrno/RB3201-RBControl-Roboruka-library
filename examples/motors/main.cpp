@@ -16,11 +16,13 @@ void loop() {
     sleep(1);
 
     rkMotorsSetPower(0, 0);
+    rkArmSetGrabbing(false);
     sleep(1);
 
     rkMotorsSetPower(-100, -100);
     sleep(1);
 
     rkMotorsSetPower(0, 0);
+    rkArmSetGrabbing(true);
     sleep(5);
 }
