@@ -19,7 +19,6 @@ cache:
 
 env:
     - PLATFORMIO_CI_SRC=examples/motors
-    - PLATFORMIO_CI_SRC=examples/motors
 
 install:
     - pip install -U platformio
