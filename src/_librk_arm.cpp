@@ -18,7 +18,7 @@ ArmWrapper::~ArmWrapper() {
 
 void ArmWrapper::setup(const rkConfig& cfg) {
     ArmBuilder builder;
-    builder.body(60, 110).armOffset(0, 20);
+    builder.body(60, 130).armOffset(0, 20);
 
     auto b0 = builder.bone(0, 110);
     b0.relStops(-95_deg, 0_deg);
