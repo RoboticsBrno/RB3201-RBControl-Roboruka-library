@@ -34,6 +34,7 @@ struct rkConfig {
         wifi_default_ap(false), wifi_ap_password("flusflus"), wifi_ap_channel(1),
         motor_id_left(2), motor_id_right(1), motor_max_power_pct(60),
         motor_polarity_switch_left(false), motor_polarity_switch_right(false),
+        motor_enable_failsafe(false),
         arm_bone_trims{ 0, 0, 0 }
     {
     }
@@ -60,6 +61,7 @@ struct rkConfig {
     uint8_t motor_max_power_pct; //!< Limit výkonu motoru v procentech od 0 do 100. Výchozí: `60`
     bool motor_polarity_switch_left; //!< Prohození polarity levého motoru. Výchozí: `false`
     bool motor_polarity_switch_right; //!< Prohození polarity pravého motoru. Výchozí: `false`
+    bool motor_enable_failsafe; //!< Zastaví motory po 500ms, pokud není zavoláno rkSetMotorPower. Výchozí: `false`
 
     float arm_bone_trims[3]; //!< Korekce úhlů pro serva v ruce, ve stupních. Pole je indexované stejně, jako serva,
                              //!< hodnota z tohoto pole je vždy přičtena k úhlu poslenému do serva.

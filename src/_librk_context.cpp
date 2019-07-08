@@ -30,7 +30,13 @@ void Context::setup(const rkConfig& cfg) {
 
     // Initialize the robot manager
     auto& man = Manager::get();
-    man.install();
+
+    auto man_flags = MAN_NONE;
+    if(!cfg.motor_enable_failsafe) {
+        man_flags = ManagerInstallFlags(man_flags | MAN_DISABLE_MOTOR_FAILSAFE);
+    }
+
+    man.install(man_flags);
 
     m_arm.setup(cfg);
     m_motors.setup(cfg);
