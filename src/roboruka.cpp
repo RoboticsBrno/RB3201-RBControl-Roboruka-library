@@ -43,7 +43,11 @@ void rkControllerSendMustArrive(const char *cmd, rbjson::Object *data) {
 }
 
 bool rkArmMoveTo(double x, double y) {
-    return gCtx.arm().moveTo(x, y);
+    if(!gCtx.arm().moveTo(x, y)) {
+        ESP_LOGE(TAG, "%s: can't move to %.1f %.1f, failed to solve the movement!", __func__, x, y);
+        return false;
+    }
+    return true;
 }
 
 void rkArmSetGrabbing(bool grab) {
