@@ -46,7 +46,7 @@ void Context::setup(const rkConfig& cfg) {
     batt.setCoef(cfg.battery_coefficient);
 
     // Set-up servos
-    auto& servos = man.initSmartServoBus(3);
+    auto& servos = man.initSmartServoBus(3, (gpio_num_t)cfg.pins.arm_servos);
     if(!servos.posOffline(2).isNaN())
         servos.setAutoStop(2);
     servos.limit(0,  0_deg, 220_deg);

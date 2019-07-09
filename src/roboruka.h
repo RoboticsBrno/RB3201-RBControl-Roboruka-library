@@ -19,9 +19,23 @@
  */
 
 /**
+ * \brief Nastavení čísel pinů různých periferií.
+ *
+ * Zde můžete přenastavit piny, pokud máte periferie připojené na desce na jíném pinu.
+ */
+struct rkPinsConfig  {
+    rkPinsConfig() :
+        arm_servos(32)
+    {
+    }
+
+    uint8_t arm_servos; //!< Signál pro serva ruky. Výchozí: pin 32
+};
+
+/**
  * \brief Nastavení SW pro Roboruku
  *
- * Tato struktura obsahuje konfogurační hodnoty pro software Roboruky.
+ * Tato struktura obsahuje konfigurační hodnoty pro software Roboruky.
  * Předává se funkci rkSetup(). Ve výchozím stavu má smysluplné hodnoty
  * a není třeba nastavovat všechny, ale jen ty, které chcete změnit.
  */
@@ -67,7 +81,10 @@ struct rkConfig {
                              //!< hodnota z tohoto pole je vždy přičtena k úhlu poslenému do serva.
                              //!< Určeno pro korekci nepřesně postavených rukou, kde fyzické postavení ruky
                              //!< neodpovídá vypočítanému postavení.
+
+    rkPinsConfig pins; //!< Konfigure pinů pro periferie, viz rkPinsConfig
 };
+
 
 /**
  * \brief Inicializační funkce Roboruky
