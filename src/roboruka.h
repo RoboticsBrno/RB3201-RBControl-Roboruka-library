@@ -82,7 +82,7 @@ struct rkConfig {
                              //!< Určeno pro korekci nepřesně postavených rukou, kde fyzické postavení ruky
                              //!< neodpovídá vypočítanému postavení.
 
-    rkPinsConfig pins; //!< Konfigure pinů pro periferie, viz rkPinsConfig
+    rkPinsConfig pins; //!< Konfigurace pinů pro periferie, viz rkPinsConfig
 };
 
 
