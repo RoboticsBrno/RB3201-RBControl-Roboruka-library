@@ -104,7 +104,6 @@ LineSensor& Context::line() {
     if(!m_line_installed.compare_exchange_strong(ex, true))
         return m_line;
 
-    m_line_cfg.channels_mask = (0xFF & ~1) & ~(1 << 7);
     auto res = m_line.install(m_line_cfg);
     if(res != ESP_OK) {
         ESP_LOGE(TAG, "failed to install linesensor: %d!", res);
