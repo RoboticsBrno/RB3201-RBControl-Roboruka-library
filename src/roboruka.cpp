@@ -99,6 +99,24 @@ void rkLedBlue(bool on) {
     Manager::get().leds().blue(on);
 }
 
+void rkLedAll(bool on) {
+    auto& l = Manager::get().leds();
+    l.red(on);
+    l.yellow(on);
+    l.green(on);
+    l.blue(on);
+}
+
+void rkLedById(uint8_t id, bool on) {
+    auto& l = Manager::get().leds();
+    switch(id) {
+        case 1: l.red(on); break;
+        case 2: l.yellow(on); break;
+        case 3: l.green(on); break;
+        case 4: l.blue(on); break;
+    }
+}
+
 bool rkButtonIsPressed(uint8_t id) {
     if(id == 0) {
         ESP_LOGE(TAG, "%s: invalid id %d, buttons are indexed from 1, just like on the board (SW1, SW2...)!", __func__, id);

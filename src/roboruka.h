@@ -269,6 +269,18 @@ void rkLedGreen(bool on = true);
  */
 void rkLedBlue(bool on = true);
 
+/**
+ * \brief Zapnout/vypnout všechny LED zaráz
+ * \param on `true` pro zapnuto, `false` pro vypnuto.
+ */
+void rkLedAll(bool on = true);
+
+/**
+ * \brief Zapnout/vypnout LED podle jejich čísla na desce, od 1 do 4 včetně.
+ * \param on `true` pro zapnuto, `false` pro vypnuto.
+ */
+void rkLedById(uint8_t id, bool on = true);
+
 /**@}*/
 /**
  * \defgroup buttons Tlačítka
