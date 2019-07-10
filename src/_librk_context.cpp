@@ -43,7 +43,7 @@ void Context::setup(const rkConfig& cfg) {
 
     // Set the battery measurement coeficient
     auto& batt = man.battery();
-    batt.setCoef(cfg.battery_coefficient);
+    batt.setFineTuneCoef(cfg.battery_coefficient);
 
     // Set-up servos
     auto& servos = man.initSmartServoBus(3, (gpio_num_t)cfg.pins.arm_servos);

@@ -21,7 +21,7 @@
     "dependencies": [
         {
             "name": "RB3201-RBControl",
-            "version": "https://github.com/RoboticsBrno/RB3201-RBControl-library/archive/v5.1.7.zip"
+            "version": "https://github.com/RoboticsBrno/RB3201-RBControl-library/archive/v6.0.0.zip"
         },
         {
             "name": "RB3201-RBProtocol",

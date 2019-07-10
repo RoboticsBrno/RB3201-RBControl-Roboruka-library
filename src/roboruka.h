@@ -43,7 +43,7 @@ struct rkConfig {
     rkConfig() :
         rbcontroller_app_enable(false),
         owner(""), name(""),
-        battery_coefficient(9.1),
+        battery_coefficient(1.0),
         wifi_name(""), wifi_password(""),
         wifi_default_ap(false), wifi_ap_password("flusflus"), wifi_ap_channel(1),
         motor_id_left(2), motor_id_right(1), motor_max_power_pct(60),
@@ -61,7 +61,7 @@ struct rkConfig {
     const char *owner; //!< Jméno vlastníka robota. Podle tohoto jména filtruje RBController roboty. Výchozí: `""`
     const char *name; //!< Jméno robota. Výchozí: ""
 
-    float battery_coefficient; //!< koeficient pro kalibraci měření napětí baterie. Výchozí: `9.1`
+    float battery_coefficient; //!< koeficient pro kalibraci měření napětí baterie. Výchozí: `1.0`
 
     const char *wifi_name; //!< Jméno WiFi sítě, na kterou se připojovat. Výchozí: `""`
     const char *wifi_password; //!< Heslo k WiFi, na kterou se připojit. Výchozí: `""`
@@ -208,6 +208,7 @@ uint32_t rkBatteryPercent();
 uint32_t rkBatteryVoltageMv();
 
 uint32_t rkBatteryRaw();
+float rkBatteryCoef();
 
 /**@}*/
 /**

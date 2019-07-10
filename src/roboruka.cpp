@@ -58,12 +58,8 @@ bool rkArmIsGrabbing() {
     return gCtx.arm().isGrabbing();
 }
 
-void rkBatterySetCoef(float coef) {
-    Manager::get().battery().setCoef(coef);
-}
-
 float rkBatteryCoef() {
-    return Manager::get().battery().coef();
+    return Manager::get().battery().fineTuneCoef();
 }
 
 uint32_t rkBatteryRaw() {
