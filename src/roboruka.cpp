@@ -108,6 +108,14 @@ void rkLedAll(bool on) {
 }
 
 void rkLedById(uint8_t id, bool on) {
+    if(id == 0) {
+        ESP_LOGE(TAG, "%s: invalid id %d, LEDs are indexed from 1, just like on the board (LED1, LED2...)!", __func__, id);
+        return;
+    } else if(id > 4) {
+        ESP_LOGE(TAG, "%s: maximum LED id is 4, you are using %d!", __func__, id);
+        return;
+    }
+
     auto& l = Manager::get().leds();
     switch(id) {
         case 1: l.red(on); break;
@@ -117,7 +125,7 @@ void rkLedById(uint8_t id, bool on) {
     }
 }
 
-bool rkButtonIsPressed(uint8_t id) {
+bool rkButtonIsPressed(uint8_t id, bool waitForRelease) {
     if(id == 0) {
         ESP_LOGE(TAG, "%s: invalid id %d, buttons are indexed from 1, just like on the board (SW1, SW2...)!", __func__, id);
         return false;
@@ -134,7 +142,35 @@ bool rkButtonIsPressed(uint8_t id) {
             return false;
         vTaskDelay(pdMS_TO_TICKS(10));
     }
+
+    if(waitForRelease) {
+        rkButtonWaitForRelease(id);
+    }
     return true;
+}
+
+void rkButtonWaitForRelease(uint8_t id) {
+    if(id == 0) {
+        ESP_LOGE(TAG, "%s: invalid id %d, buttons are indexed from 1, just like on the board (SW1, SW2...)!", __func__, id);
+        return;
+    } else if(id > 3) {
+        ESP_LOGE(TAG, "%s: maximum button id is 3, you are using %d!", __func__, id);
+        return;
+    }
+
+    int pin = SW1 + (id - 1);
+    int counter = 0;
+    auto& exp = Manager::get().expander();
+    while(true) {
+        const bool pressed = exp.digitalRead(pin) == 0;
+        if(!pressed) {
+            if(++counter > 3)
+                return;
+        } else {
+            counter = 0;
+        }
+        vTaskDelay(pdMS_TO_TICKS(10));
+    }
 }
 
 void rkLineCalibrate(float motor_time_coef) {

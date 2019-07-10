@@ -290,14 +290,20 @@ void rkLedById(uint8_t id, bool on = true);
  */
 
 /**
- * \brief Je stisknuto tlačítko?
- *
- * Poznámka: tato funkce může trvat až 30ms.
+ * \brief Je teď stisknuto tlačítko?
  *
  * \param id číslo tlačítka jako na desce, od 1 do 3 včetně.
+ * \param waitForRelease pokud je stisknuto, počká před vrácením výsledku na jeho uvolnění.
  * \return Vrátí `true` pokud je tlačítko stisknuto.
  */
-bool rkButtonIsPressed(uint8_t id);
+bool rkButtonIsPressed(uint8_t id, bool waitForRelease = true);
+
+/**
+ * \brief Počkat, dokud není tlačítko uvolněno.
+ *
+ * \param id číslo tlačítka jako na desce, od 1 do 3 včetně.
+ */
+void rkButtonWaitForRelease(uint8_t id);
 
 /**@}*/
 
