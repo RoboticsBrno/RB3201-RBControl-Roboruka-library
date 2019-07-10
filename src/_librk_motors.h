@@ -3,6 +3,7 @@
 #include <stdint.h>
 
 #include "roboruka.h"
+#include "RBControl_pinout.hpp"
 
 namespace rk {
 
@@ -16,13 +17,16 @@ public:
     void set(int8_t left, int8_t right);
     void joystick(int32_t x, int32_t y);
 
+    rb::MotorId idLeft() const { return m_id_left; }
+    rb::MotorId idRight() const { return m_id_right; }
+
 private:
     Motors(const Motors&) = delete;
 
     int32_t scale(int32_t val);
 
-    uint8_t m_id_left;
-    uint8_t m_id_right;
+    rb::MotorId m_id_left;
+    rb::MotorId m_id_right;
     bool m_polarity_switch_left;
     bool m_polarity_switch_right;
 };

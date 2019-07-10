@@ -25,11 +25,17 @@
  */
 struct rkPinsConfig  {
     rkPinsConfig() :
-        arm_servos(32)
+        arm_servos(32),
+        line_cs(4), line_mosi(14), line_miso(27), line_sck(26)
     {
     }
 
     uint8_t arm_servos; //!< Signál pro serva ruky. Výchozí: pin 32
+
+    uint8_t line_cs;
+    uint8_t line_mosi;
+    uint8_t line_miso;
+    uint8_t line_sck;
 };
 
 /**
@@ -280,6 +286,62 @@ void rkLedBlue(bool on = true);
  * \return Vrátí `true` pokud je tlačítko stisknuto.
  */
 bool rkButtonIsPressed(uint8_t id);
+
+/**@}*/
+
+
+/**@}*/
+/**
+ * \defgroup line Sledování čáry
+ *
+ * Funkce pro komunikaci se senzory na čáru.
+ * @{
+ */
+
+/**
+ * \brief Kalibrovat senzory na čáru.
+ *
+ * Otočí robota doprava a pak doleva a zase zpět tak, aby lišta se senzory
+ * prošla celá nad čárou i nad okolím. Trvá to 2.2s, funkce po celou dobu
+ * kalibrace čeká a vrátí se až po dokončení.
+ *
+ * Předpokládá se, že před zavoláním této metody roboto stojí tak, že prostřední senzory
+ * jsou nad čárou.
+ *
+ * Kalibrační hodnoty se ukládají do paměti, kalibraci je třeba dělat pouze když
+ * je ruka přesunuta na jiný podklad.
+ *
+ * \param motor_time_coef tento koeficient změní jak dlouho se roboto otáčí, změňte pokud se vaše ruka
+ *                        neotočí tak, že senzory projedou všechny nad čárou.
+ */
+void rkLineCalibrate(float motor_time_coef = 1.0);
+
+/**
+ * \brief Vymazat kalibraci
+ *
+ * Vymazat nastavenou kalibraci a dále používat nezkalibrované hodnoty.
+ */
+void rkLineClearCalibration();
+
+/**
+ * \brief Hodnota z jednoho senzoru na čáru.
+ *
+ * \param sensorId číslo senzoru od 0 do 7 včetně
+ * \return naměřená hodnota od 0 do 1023
+ */
+uint16_t rkLineGetSensor(uint8_t sensorId);
+
+/**
+ * \brief Pozice čáry pod senzory
+ *
+ * Tato funkce se pokouší najít černou čáru pod senzory.
+ *
+ * \param whíte_line nastavte na true, pokud sledujete bílou čáru na černém podkladu. Výchozí: false
+ * \param line_threshold_pct Jak velký rozdíl v procentech musí mezi hodnotami být, aby byla čára považována za nalezenou. Výchozí: 25%
+ * \return Desetinná hodnota od -1 do +1. -1 znamená, že čára je úplně vlevo, 0 že je uprostřed a 1 že je úplně vpravo.
+ *         Vrátí NaN, pokud nenalezne čáru - výsledek otestujte funkcí isnan() - `isnan(line_position)`
+ */
+float rkLinePosition(bool white_line = false, uint8_t line_threshold_pct = 25);
 
 /**@}*/
 

@@ -10,6 +10,7 @@
 
 using namespace rb;
 using namespace rk;
+using namespace mcp3008;
 
 void rkSetup(const rkConfig& cfg) {
     gCtx.setup(cfg);
@@ -116,4 +117,67 @@ bool rkButtonIsPressed(uint8_t id) {
         vTaskDelay(pdMS_TO_TICKS(10));
     }
     return true;
+}
+
+void rkLineCalibrate(float motor_time_coef) {
+    auto& man = Manager::get();
+
+    const auto l = gCtx.motors().idLeft();
+    const auto r = gCtx.motors().idRight();
+
+    const auto maxleft = man.motor(l).pwmMaxPercent();
+    const auto maxright = man.motor(r).pwmMaxPercent();
+
+    constexpr int8_t pwr = 40;
+
+    auto cal = gCtx.line().startCalibration();
+    man.setMotors()
+        .pwmMaxPercent(l, 100)
+        .pwmMaxPercent(r, 100)
+        .power(l, -pwr).power(r, pwr)
+        .set();
+
+    for(int i = 0; i < 30*motor_time_coef; ++i) {
+        cal.record();
+        vTaskDelay(pdMS_TO_TICKS(20));
+    }
+
+    man.setMotors().power(l, pwr).power(r, -pwr).set();
+    for(int i = 0; i < 50*motor_time_coef; ++i) {
+        cal.record();
+        vTaskDelay(pdMS_TO_TICKS(20));
+    }
+
+    man.setMotors().power(l, -pwr).power(r, pwr).set();
+    for(int i = 0; i < 30*motor_time_coef; ++i) {
+        cal.record();
+        vTaskDelay(pdMS_TO_TICKS(20));
+    }
+
+    man.setMotors()
+        .power(l, 0).power(r, 0)
+        .pwmMaxPercent(l, maxleft)
+        .pwmMaxPercent(r, maxright)
+        .set();
+
+    cal.save();
+    gCtx.saveLineCalibration();
+}
+
+void rkLineClearCalibration() {
+    LineSensor::CalibrationData cal;
+    for(int i = 0; i < Driver::CHANNELS; ++i) {
+        cal.min[i] = 0;
+        cal.range[i] = Driver::MAX_VAL;
+    }
+    gCtx.line().setCalibration(cal);
+    gCtx.saveLineCalibration();
+}
+
+uint16_t rkLineGetSensor(uint8_t sensorId) {
+    return gCtx.line().calibratedReadChannel(sensorId);
+}
+
+float rkLinePosition(bool white_line, uint8_t line_threshold_pct) {
+    return gCtx.line().readLine(white_line, float(line_threshold_pct)/100.f);
 }

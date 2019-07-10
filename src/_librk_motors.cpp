@@ -3,7 +3,7 @@
 
 namespace rk {
 
-Motors::Motors() : m_id_left(0), m_id_right(0) {
+Motors::Motors() : m_id_left(rb::MotorId::M1), m_id_right(rb::MotorId::M1) {
 
 }
 
@@ -12,15 +12,15 @@ Motors::~Motors() {
 }
 
 void Motors::setup(const rkConfig& cfg) {
-    m_id_left = cfg.motor_id_left-1;
-    m_id_right = cfg.motor_id_right-1;
+    m_id_left = (rb::MotorId)(cfg.motor_id_left-1);
+    m_id_right = (rb::MotorId)(cfg.motor_id_right-1);
     m_polarity_switch_left = cfg.motor_polarity_switch_left;
     m_polarity_switch_right = cfg.motor_polarity_switch_right;
 
     // Set motor power limits
     rb::Manager::get().setMotors()
-        .pwmMaxPercent((rb::MotorId)m_id_left, cfg.motor_max_power_pct)
-        .pwmMaxPercent((rb::MotorId)m_id_right, cfg.motor_max_power_pct)
+        .pwmMaxPercent(m_id_left, cfg.motor_max_power_pct)
+        .pwmMaxPercent(m_id_right, cfg.motor_max_power_pct)
         .set();
 }
 
@@ -31,8 +31,8 @@ void Motors::set(int8_t left, int8_t right) {
         right = -right;
 
     rb::Manager::get().setMotors()
-        .power((rb::MotorId)m_id_left, left)
-        .power((rb::MotorId)m_id_right, right)
+        .power(m_id_left, left)
+        .power(m_id_right, right)
         .set();
 }
 
