@@ -29,7 +29,7 @@
         },
         {
             "name": "Esp32-Mcp3008-LineSensor",
-            "version": "https://github.com/RoboticsBrno/Esp32-Mcp3008-LineSensor/archive/v2.0.0.zip"
+            "version": "https://github.com/RoboticsBrno/Esp32-Mcp3008-LineSensor/archive/v2.0.1.zip"
         }
     ],
     "build": {
