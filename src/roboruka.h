@@ -159,7 +159,7 @@ void rkMotorsJoystick(int32_t x, int32_t y);
  *                       |
  *                       |
  *                       |
- *                       Y-
+ *                       Y+
  * </pre>
  *
  * Souřadnice nemusíte měřit ručně, jsou vidět v aplikaci RBController nahoře vlevo nad rukou.
