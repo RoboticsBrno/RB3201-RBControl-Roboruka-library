@@ -42,6 +42,10 @@ void Motors::joystick(int32_t x, int32_t y) {
 
     int r = ((y - (x/1.5f)));
     int l = ((y + (x/1.5f)));
+
+    r = rb::clamp(r, -127, 127);
+    l = rb::clamp(l, -127, 127);
+
     if(r < 0 && l < 0) {
         std::swap(r, l);
     }
