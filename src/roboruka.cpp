@@ -51,12 +51,25 @@ bool rkArmMoveTo(double x, double y) {
     return true;
 }
 
+bool rkArmPosition(double& outX, double& outY) {
+    return gCtx.arm().getCurrentPosition(outX, outY);
+}
+
 void rkArmSetGrabbing(bool grab) {
     return gCtx.arm().setGrabbing(grab);
 }
 
 bool rkArmIsGrabbing() {
     return gCtx.arm().isGrabbing();
+}
+
+void rkArmSetServo(uint8_t id, float degrees) {
+    Manager::get().servoBus().set(id, Angle::deg(degrees));
+}
+
+float rkArmGetServo(uint8_t id) {
+    const auto pos = Manager::get().servoBus().pos(id);
+    return pos.isNaN() ? nanf("") : pos.deg();
 }
 
 float rkBatteryCoef() {

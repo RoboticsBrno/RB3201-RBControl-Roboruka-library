@@ -17,6 +17,8 @@ public:
     void setGrabbing(bool grab);
     bool isGrabbing() const;
 
+    bool getCurrentPosition(double &outX, double &outY) const;
+
 private:
     ArmWrapper(const ArmWrapper&) = delete;
 

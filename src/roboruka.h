@@ -177,6 +177,17 @@ void rkMotorsJoystick(int32_t x, int32_t y);
 bool rkArmMoveTo(double x, double y);
 
 /**
+ * \brief Na kterých souřadnicích je teď konec ruky?
+ *
+ * Tato funkce má dvě výstupní hodnoty, proto jsou outX a outY výstupní proměnné, i když jsou předávány jako parametry.
+ *
+ * \param outX Do této proměnné bude zapsána souřadnice X.
+ * \param outY Do této proměnné bude zapsána souřadnice Y.
+ * \return Vrátí `false` pokud se pozici nepodaří zjistit, jinak `true`.
+ */
+bool rkArmPosition(double& outX, double& outY);
+
+/**
  * \brief Jsou prsty ruky rozevřené?
  *
  * \return Vrátí `true`, pokud jsou prsty ruky momentálně plně rozevřeny.
@@ -189,6 +200,22 @@ bool rkArmIsGrabbing();
  * \param grab Pokud `true`, prsty ruky se sevřou, pokud `false` tak se uvolní.
  */
 void rkArmSetGrabbing(bool grab);
+
+/**
+ * \brief Pohnout servo na úhel.
+ *
+ * \param id ID serva, 0 až 2 včetně.
+ * \param degrees Úhel ve stupních, na který se má servo pohnout.
+ */
+void rkArmSetServo(uint8_t id, float degrees);
+
+/**
+ * \brief Na jaké pozici je servo?
+ *
+ * \param id ID serva, 0 až 2 včetně.
+ * \return Vrací úhel ve stupních, nebo NaN pokud se úhel nepodaří zjistit. Použijte funkci `isnan` na kontrolu tohoto stavu.
+ */
+float rkArmGetServo(uint8_t id);
 
 
 /**@}*/

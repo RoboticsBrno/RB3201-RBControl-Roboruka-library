@@ -6,6 +6,8 @@
 
 using namespace rb;
 
+#define TAG "roboruka"
+
 namespace rk {
 
 ArmWrapper::ArmWrapper() {
@@ -88,6 +90,11 @@ void ArmWrapper::sendInfo() {
 }
 
 bool ArmWrapper::moveTo(double x, double y) {
+    if(!m_arm->syncBonesWithServos()) {
+        ESP_LOGE(TAG, "failed to syncBonsWithServos, are they connected correctly?");
+        return false;
+    }
+
     if(!m_arm->solve(round(x), round(y)))
         return false;
 
@@ -106,6 +113,20 @@ void ArmWrapper::setGrabbing(bool grab) {
 
 bool ArmWrapper::isGrabbing() const {
     return Manager::get().servoBus().posOffline(2).deg() < 140;
+}
+
+bool ArmWrapper::getCurrentPosition(double &outX, double &outY) const {
+    outX = outY = 0;
+
+    if(!m_arm->syncBonesWithServos()) {
+        ESP_LOGE(TAG, "failed to syncBonsWithServos, are they connected correctly?");
+        return false;
+    }
+
+    const auto& end = m_arm->bones().back();
+    outX = end.x;
+    outY = end.y;
+    return true;
 }
 
 };
