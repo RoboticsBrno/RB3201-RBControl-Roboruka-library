@@ -185,34 +185,27 @@ void rkLineCalibrate(float motor_time_coef) {
     constexpr int8_t pwr = 40;
 
     auto cal = gCtx.line().startCalibration();
-    man.setMotors()
-        .pwmMaxPercent(l, 100)
-        .pwmMaxPercent(r, 100)
-        .power(l, -pwr).power(r, pwr)
-        .set();
+
+    gCtx.motors().set(-pwr, pwr, 100, 100);
 
     for(int i = 0; i < 30*motor_time_coef; ++i) {
         cal.record();
         vTaskDelay(pdMS_TO_TICKS(20));
     }
 
-    man.setMotors().power(l, pwr).power(r, -pwr).set();
+    gCtx.motors().set(pwr, -pwr);
     for(int i = 0; i < 50*motor_time_coef; ++i) {
         cal.record();
         vTaskDelay(pdMS_TO_TICKS(20));
     }
 
-    man.setMotors().power(l, -pwr).power(r, pwr).set();
+    gCtx.motors().set(-pwr, pwr);
     for(int i = 0; i < 30*motor_time_coef; ++i) {
         cal.record();
         vTaskDelay(pdMS_TO_TICKS(20));
     }
 
-    man.setMotors()
-        .power(l, 0).power(r, 0)
-        .pwmMaxPercent(l, maxleft)
-        .pwmMaxPercent(r, maxright)
-        .set();
+    gCtx.motors().set(0, 0, maxleft, maxright);
 
     cal.save();
     gCtx.saveLineCalibration();

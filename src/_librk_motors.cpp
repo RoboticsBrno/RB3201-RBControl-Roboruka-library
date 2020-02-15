@@ -36,6 +36,20 @@ void Motors::set(int8_t left, int8_t right) {
         .set();
 }
 
+void Motors::set(int8_t left, int8_t right, uint8_t power_left, uint8_t power_right) {
+    if(m_polarity_switch_left)
+        left = -left;
+    if(m_polarity_switch_right)
+        right = -right;
+
+    rb::Manager::get().setMotors()
+        .pwmMaxPercent(m_id_left, power_left)
+        .pwmMaxPercent(m_id_right, power_right)
+        .power(m_id_left, left)
+        .power(m_id_right, right)
+        .set();
+}
+
 void Motors::joystick(int32_t x, int32_t y) {
     x = scale(x);
     y = scale(y);
