@@ -63,22 +63,11 @@ void Context::setup(const rkConfig& cfg) {
     servos.limit(1, 85_deg, 210_deg);
     servos.limit(2, 75_deg, 160_deg);
 
-    if(man.expander().digitalRead(SW1) != cfg.wifi_default_ap) {
-        if(cfg.wifi_name && strlen(cfg.wifi_name) != 0) {
-            man.leds().yellow();
-            WiFi::connect(cfg.wifi_name, cfg.wifi_password);
-        }
-    } else {
-        if(cfg.wifi_ap_password && strlen(cfg.wifi_ap_password) != 0) {
-            man.leds().green();
-            char ssid[32] = { 0 };
-            snprintf(ssid, sizeof(ssid), "%s-%s", cfg.owner, cfg.name);
-            WiFi::startAp(ssid, cfg.wifi_ap_password, cfg.wifi_ap_channel);
-        }
-    }
+    m_wifi.init(cfg);
 
     if(cfg.rbcontroller_app_enable) {
         m_prot_callback = cfg.rbcontroller_message_callback;
+
 
         // Start web server with control page (see data/index.html)
         rb_web_start(80);

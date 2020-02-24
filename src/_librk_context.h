@@ -9,6 +9,7 @@
 
 #include "_librk_arm.h"
 #include "_librk_motors.h"
+#include "_librk_wifi.h"
 
 namespace rk {
 
@@ -32,6 +33,7 @@ private:
 
     ArmWrapper m_arm;
     Motors m_motors;
+    WiFi m_wifi;
     rb::Protocol *m_prot;
     rb::Protocol::callback_t m_prot_callback;
 

@@ -38,6 +38,9 @@ struct rkPinsConfig  {
     uint8_t line_sck;
 };
 
+
+#define RK_DEFAULT_WIFI_AP_PASSWORD "flusflus" //!< Výchozí heslo pro WiFi AP
+
 /**
  * \brief Nastavení SW pro Roboruku
  *
@@ -51,7 +54,7 @@ struct rkConfig {
         owner(""), name(""),
         battery_coefficient(1.0),
         wifi_name(""), wifi_password(""),
-        wifi_default_ap(false), wifi_ap_password("flusflus"), wifi_ap_channel(1),
+        wifi_default_ap(false), wifi_ap_password(RK_DEFAULT_WIFI_AP_PASSWORD), wifi_ap_channel(1),
         motor_id_left(2), motor_id_right(1), motor_max_power_pct(60),
         motor_polarity_switch_left(false), motor_polarity_switch_right(false),
         motor_enable_failsafe(false),
