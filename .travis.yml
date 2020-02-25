@@ -18,7 +18,7 @@ cache:
         - "~/.platformio"
 
 env:
-    - PLATFORMIO_CI_SRC=examples/motors
+    - PLATFORMIO_CI_SRC="examples/motors partitions.csv"
 
 install:
     - pip install -U platformio
