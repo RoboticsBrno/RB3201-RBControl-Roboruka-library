@@ -17,15 +17,12 @@ cache:
     directories:
         - "~/.platformio"
 
-env:
-    - PLATFORMIO_CI_SRC="examples/motors partitions.csv"
-
 install:
     - pip install -U platformio
     - platformio update
 
 script:
-    - platformio ci --lib="." --project-conf="./platformio.ini"
+    - platformio ci --lib="." --project-conf="./platformio.ini" examples/motors partitions.csv
     - doxygen Doxyfile
 
 deploy:
