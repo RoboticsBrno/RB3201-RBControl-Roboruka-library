@@ -9,6 +9,9 @@
 #define _LIBRB_H
 
 #include "rbprotocol.h"
+#include "ui/ui.h"
+
+using namespace rkui;
 
 /**
  * \defgroup general Inicializace

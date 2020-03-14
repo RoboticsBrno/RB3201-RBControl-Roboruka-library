@@ -82,6 +82,8 @@ void Context::setup(const rkConfig& cfg) {
 void Context::handleRbcontrollerMessage(const std::string& cmd, rbjson::Object* pkt) {
     if(cmd == "arminfo") {
         m_arm.sendInfo();
+    } else if(cmd == "gev") {
+        UI.onEvent(pkt);
     } else if(cmd == "possess") {
         m_wifi.disableBle();
     } else if(m_prot_callback) {

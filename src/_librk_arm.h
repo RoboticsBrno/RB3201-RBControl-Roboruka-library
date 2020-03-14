@@ -3,6 +3,8 @@
 #include "RBControl_arm.hpp"
 #include "rbprotocol.h"
 
+#include "roboruka.h"
+
 namespace rk {
 
 class ArmWrapper {
