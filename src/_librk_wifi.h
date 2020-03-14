@@ -24,6 +24,8 @@ public:
 
     void init(const rkConfig& cfg);
 
+    void disableBle();
+
     virtual void onRead(BLECharacteristic* ) { }
     virtual void onNotify(BLECharacteristic* ) { }
     virtual void onStatus(BLECharacteristic*, Status, uint32_t ) { }
@@ -49,7 +51,6 @@ private:
 
     void setupWifi(const Config& cfg);
 
-
 #ifndef RK_DISABLE_BLE
     void setupBle(const rkConfig& cfg, const Config& wifiCfg);
 
@@ -58,12 +59,17 @@ private:
 
     bool m_ip_update_running;
     BLECharacteristic *m_ip_char;
+
+    uint32_t m_battery_level;
+
+    bool m_ble_running;
+    BLEServer *m_server;
+    std::vector<BLEService*> m_services;
+    std::vector<BLECharacteristic*> m_chars;
 #endif
 
     std::mutex m_mutex;
     bool m_esp_wifi_started;
     char m_ssid[32];
-
-    uint32_t m_battery_level;
 };
 };

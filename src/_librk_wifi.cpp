@@ -36,6 +36,7 @@ WiFi::WiFi() {
     memset(m_ssid, 0, sizeof(m_ssid));
 
 #ifndef RK_DISABLE_BLE
+    m_ble_running = false;
     m_ip_update_running = false;
     m_ip_char = nullptr;
 #endif
@@ -63,7 +64,6 @@ void WiFi::init(const rkConfig& cfg) {
     bool station_mode = man.expander().digitalRead(rb::SW1) != cfg.wifi_default_ap && has_station_name;
 
     snprintf(m_ssid, sizeof(m_ssid), "%s-%s", cfg.owner, cfg.name);
-    m_battery_level = man.battery().pct();
 
     Config wifiCfg;
     if(!enable_ble || !wifiCfg.load()) {
@@ -114,46 +114,111 @@ void WiFi::setupWifi(const Config& cfg) {
     }
 }
 
+void WiFi::disableBle() {
+#ifndef RK_DISABLE_BLE
+    const std::lock_guard<std::mutex> lock(m_mutex);
+    if(!m_ble_running)
+        return;
+
+    m_ip_char = nullptr;
+    m_ble_running = false;
+
+    // There is no way to cleanly destroy all the Arduino stuff, try our best :/
+    for(auto *s : m_services) {
+        m_server->removeService(s);
+    }
+
+    BLEDevice::getAdvertising()->stop();
+
+    BLEDevice::deinit(false);
+    esp_bt_mem_release(ESP_BT_MODE_BTDM);
+
+    delete BLEDevice::getAdvertising();
+    delete m_server;
+    m_server = nullptr;
+
+    for(auto *c : m_chars) {
+       delete c;
+    }
+    m_chars.clear();
+    m_chars.shrink_to_fit();
+
+    for(auto *s : m_services) {
+        delete s;
+    }
+    m_services.clear();
+    m_services.shrink_to_fit();
+#endif
+}
+
 #ifndef RK_DISABLE_BLE
 void WiFi::setupBle(const rkConfig& cfg, const Config& wifiCfg) {
     const std::lock_guard<std::mutex> lock(m_mutex);
 
     auto &man = rb::Manager::get();
 
+    // Preinit in BLE-only mode, saves few KB of RAM
+    if(esp_bt_controller_get_status() != ESP_BT_CONTROLLER_STATUS_ENABLED) {
+        if(esp_bt_controller_get_status() == ESP_BT_CONTROLLER_STATUS_IDLE){
+            esp_bt_controller_config_t cfg = BT_CONTROLLER_INIT_CONFIG_DEFAULT();
+            cfg.mode = ESP_BT_MODE_BLE;
+            esp_bt_controller_init(&cfg);
+            while(esp_bt_controller_get_status() == ESP_BT_CONTROLLER_STATUS_IDLE){}
+        }
+        if(esp_bt_controller_get_status() == ESP_BT_CONTROLLER_STATUS_INITED){
+            esp_bt_controller_enable(ESP_BT_MODE_BLE);
+        }
+    }
+
+    m_ble_running = true;
+
     BLEDevice::init(m_ssid);
 
-    BLEServer *pServer = BLEDevice::createServer();
+    m_server = BLEDevice::createServer();
 
     {
-        auto *service = pServer->createService(RBCONTROL_SERVICE_UUID);
+        auto *service = m_server->createService(RBCONTROL_SERVICE_UUID);
 
         auto *owner = service->createCharacteristic(OWNER_UUID, BLECharacteristic::PROPERTY_READ);
         owner->setValue(cfg.owner);
+        m_chars.push_back(owner);
 
         auto *name = service->createCharacteristic(NAME_UUID, BLECharacteristic::PROPERTY_READ);
         name->setValue(cfg.name);
+        m_chars.push_back(name);
 
         auto ip = rb::WiFi::getIp().addr;
         m_ip_char = service->createCharacteristic(WIFI_IP_UUID,
             BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY);
         m_ip_char->setValue(ip);
+        m_chars.push_back(m_ip_char);
 
         auto *cfg_char = service->createCharacteristic(WIFI_CONFIG_UUID,
             BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_WRITE);
         cfg_char->setValue(wifiCfg.format().c_str());
         cfg_char->setCallbacks(this);
+        m_chars.push_back(cfg_char);
 
         service->start();
+        m_services.push_back(service);
     }
 
     {
-        auto *service = pServer->createService(BATTERY_SERVICE_UUID);
+        auto *service = m_server->createService(BATTERY_SERVICE_UUID);
         auto * const batt_chr = service->createCharacteristic(BATTERY_LEVEL_UUID,
             BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY);
+        m_battery_level = man.battery().pct();
         batt_chr->setValue(m_battery_level);
+        m_chars.push_back(batt_chr);
+
         service->start();
+        m_services.push_back(service);
 
         man.schedule(5000, [=]() -> bool {
+            const std::lock_guard<std::mutex> lock(m_mutex);
+            if(!m_ble_running)
+                return false;
+
             const auto new_lvl = rb::Manager::get().battery().pct();
             if(new_lvl != m_battery_level) {
                 m_battery_level = new_lvl;
@@ -191,11 +256,13 @@ bool WiFi::updateIpChar() {
         return true;
     }
 
-    m_mutex.lock();
+    const std::lock_guard<std::mutex> lock(m_mutex);
+    if(m_ip_char == nullptr)
+        return false;
+
     m_ip_char->setValue(ip.addr);
     m_ip_char->notify();
     m_ip_update_running = false;
-    m_mutex.unlock();
     return false;
 }
 

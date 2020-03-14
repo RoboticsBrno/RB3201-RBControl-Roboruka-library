@@ -68,7 +68,6 @@ void Context::setup(const rkConfig& cfg) {
     if(cfg.rbcontroller_app_enable) {
         m_prot_callback = cfg.rbcontroller_message_callback;
 
-
         // Start web server with control page (see data/index.html)
         rb_web_start(80);
 
@@ -83,6 +82,8 @@ void Context::setup(const rkConfig& cfg) {
 void Context::handleRbcontrollerMessage(const std::string& cmd, rbjson::Object* pkt) {
     if(cmd == "arminfo") {
         m_arm.sendInfo();
+    } else if(cmd == "possess") {
+        m_wifi.disableBle();
     } else if(m_prot_callback) {
         m_prot_callback(cmd, pkt);
     }
