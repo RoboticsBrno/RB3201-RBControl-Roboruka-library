@@ -9,9 +9,9 @@
 #define _LIBRB_H
 
 #include "rbprotocol.h"
-#include "ui/ui.h"
+#include "gridui.h"
 
-using namespace rkui;
+using namespace gridui;
 
 /**
  * \defgroup general Inicializace

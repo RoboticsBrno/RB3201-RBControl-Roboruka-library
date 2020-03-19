@@ -76,14 +76,17 @@ void Context::setup(const rkConfig& cfg) {
         m_prot = new Protocol(cfg.owner, cfg.name, "Compiled at " __DATE__ " " __TIME__,
             std::bind(&Context::handleRbcontrollerMessage, this, _1, _2));
         m_prot->start();
+
+        UI.begin(m_prot);
     }
 }
 
 void Context::handleRbcontrollerMessage(const std::string& cmd, rbjson::Object* pkt) {
+    if(UI.handleRbPacket(cmd, pkt))
+        return;
+
     if(cmd == "arminfo") {
         m_arm.sendInfo();
-    } else if(cmd == "gev") {
-        UI.onEvent(pkt);
     } else if(cmd == "possess") {
         m_wifi.disableBle();
     } else if(m_prot_callback) {

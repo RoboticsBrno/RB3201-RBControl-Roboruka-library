@@ -30,6 +30,10 @@
         {
             "name": "Esp32-Mcp3008-LineSensor",
             "version": "https://github.com/RoboticsBrno/Esp32-Mcp3008-LineSensor/archive/v2.0.1.zip"
+        },
+        {
+            "name": "Esp32-RBGridUI",
+            "version": "https://github.com/RoboticsBrno/Esp32-RBGridUI/archive/v0.0.1.zip"
         }
     ],
     "build": {
