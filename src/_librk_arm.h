@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "RBControl_arm.hpp"
 #include "rbprotocol.h"
 
@@ -14,6 +16,7 @@ public:
 
     void setup(const rkConfig& cfg);
 
+    std::unique_ptr<rbjson::Object> getInfo();
     void sendInfo();
     bool moveTo(double x, double y);
     void setGrabbing(bool grab);

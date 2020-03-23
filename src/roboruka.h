@@ -8,6 +8,8 @@
 #ifndef _LIBRB_H
 #define _LIBRB_H
 
+#include <memory>
+
 #include "rbprotocol.h"
 #include "gridui.h"
 
@@ -222,6 +224,17 @@ void rkArmSetServo(uint8_t id, float degrees);
  * \return Vrací úhel ve stupních, nebo NaN pokud se úhel nepodaří zjistit. Použijte funkci `isnan` na kontrolu tohoto stavu.
  */
 float rkArmGetServo(uint8_t id);
+
+/**
+ * \brief Informace o mechanice ruky.
+ *
+ * Tato funkce vrací JSON objekt který obsahuje informace o rozměrech ruky,
+ * limitech jejích kloubů a další. Je určena pro předání informací do webového
+ * rozhraní v aplikaci RBControl.
+ *
+ * \return JSON objekt obsahující informace o ruce.
+ */
+std::unique_ptr<rbjson::Object> rkArmGetInfo();
 
 
 /**@}*/

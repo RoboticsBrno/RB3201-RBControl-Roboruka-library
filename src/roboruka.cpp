@@ -72,6 +72,10 @@ float rkArmGetServo(uint8_t id) {
     return pos.isNaN() ? nanf("") : pos.deg();
 }
 
+std::unique_ptr<rbjson::Object> rkArmGetInfo() {
+    return gCtx.arm().getInfo();
+}
+
 float rkBatteryCoef() {
     return Manager::get().battery().fineTuneCoef();
 }

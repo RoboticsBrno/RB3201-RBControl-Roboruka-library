@@ -36,12 +36,12 @@ void ArmWrapper::setup(const rkConfig& cfg) {
         .absStops(-20_deg, Angle::Pi)
         .baseRelStops(40_deg, 160_deg);
     b1.calcServoAng([](Angle absAngle, Angle) -> Angle {
-        absAngle = Arm::clamp(absAngle + Angle::Pi*1.5);
+        absAngle = rb::Arm::clamp(absAngle + Angle::Pi*1.5);
         return Angle::Pi + absAngle + 25_deg;
     });
     b1.calcAbsAng([](Angle servoAng) -> Angle {
         auto a = servoAng - Angle::Pi - 25_deg;
-        return Arm::clamp(a - Angle::Pi*1.5);
+        return rb::Arm::clamp(a - Angle::Pi*1.5);
     });
 
     m_arm = builder.build().release();
@@ -52,7 +52,7 @@ void ArmWrapper::setup(const rkConfig& cfg) {
     }
 }
 
-void ArmWrapper::sendInfo() {
+std::unique_ptr<rbjson::Object> ArmWrapper::getInfo() {
     const auto& def = m_arm->definition();
 
     auto info = std::make_unique<rbjson::Object>();
@@ -86,7 +86,11 @@ void ArmWrapper::sendInfo() {
         info_b->set("bmax", b.base_rel_max.rad());
         bones->push_back(info_b);
     }
-    gCtx.prot()->send_mustarrive("arminfo", info.release());
+    return info;
+}
+
+void ArmWrapper::sendInfo() {
+    gCtx.prot()->send_mustarrive("arminfo", getInfo().release());
 }
 
 bool ArmWrapper::moveTo(double x, double y) {
