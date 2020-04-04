@@ -82,13 +82,13 @@ void Context::setup(const rkConfig& cfg) {
 }
 
 void Context::handleRbcontrollerMessage(const std::string& cmd, rbjson::Object* pkt) {
+    m_wifi.disableBle();
+
     if(UI.handleRbPacket(cmd, pkt))
         return;
 
     if(cmd == "arminfo") {
         m_arm.sendInfo();
-    } else if(cmd == "possess") {
-        m_wifi.disableBle();
     } else if(m_prot_callback) {
         m_prot_callback(cmd, pkt);
     }
