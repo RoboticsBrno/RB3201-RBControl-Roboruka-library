@@ -1,5 +1,5 @@
-#include <Arduino.h>
 #include "roboruka.h"
+#include <Arduino.h>
 
 void setup() {
     rkConfig cfg;

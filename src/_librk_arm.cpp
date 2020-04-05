@@ -1,8 +1,8 @@
 #include "RBControl.hpp"
 
-#include "roboruka.h"
-#include "_librk_context.h"
 #include "_librk_arm.h"
+#include "_librk_context.h"
+#include "roboruka.h"
 
 using namespace rb;
 
@@ -15,7 +15,6 @@ ArmWrapper::ArmWrapper() {
 }
 
 ArmWrapper::~ArmWrapper() {
-
 }
 
 void ArmWrapper::setup(const rkConfig& cfg) {
@@ -36,18 +35,18 @@ void ArmWrapper::setup(const rkConfig& cfg) {
         .absStops(-20_deg, Angle::Pi)
         .baseRelStops(40_deg, 160_deg);
     b1.calcServoAng([](Angle absAngle, Angle) -> Angle {
-        absAngle = rb::Arm::clamp(absAngle + Angle::Pi*1.5);
+        absAngle = rb::Arm::clamp(absAngle + Angle::Pi * 1.5);
         return Angle::Pi + absAngle + 25_deg;
     });
     b1.calcAbsAng([](Angle servoAng) -> Angle {
         auto a = servoAng - Angle::Pi - 25_deg;
-        return rb::Arm::clamp(a - Angle::Pi*1.5);
+        return rb::Arm::clamp(a - Angle::Pi * 1.5);
     });
 
     m_arm = builder.build().release();
 
-    m_bone_trims.resize(sizeof(cfg.arm_bone_trims)/sizeof(float));
-    for(size_t i = 0; i < m_bone_trims.size(); ++i) {
+    m_bone_trims.resize(sizeof(cfg.arm_bone_trims) / sizeof(float));
+    for (size_t i = 0; i < m_bone_trims.size(); ++i) {
         m_bone_trims[i] = Angle::deg(cfg.arm_bone_trims[i]);
     }
 }
@@ -61,21 +60,21 @@ std::unique_ptr<rbjson::Object> ArmWrapper::getInfo() {
     info->set("off_x", def.arm_offset_x);
     info->set("off_y", def.arm_offset_y);
 
-    auto *bones = new rbjson::Array();
+    auto* bones = new rbjson::Array();
     info->set("bones", bones);
 
     auto& servo = Manager::get().servoBus();
-    for(const auto& b : def.bones) {
+    for (const auto& b : def.bones) {
         auto pos = servo.pos(b.servo_id);
-        if(pos.isNaN()) {
-            while(bones->size() != 0)
-                bones->remove(bones->size()-1);
+        if (pos.isNaN()) {
+            while (bones->size() != 0)
+                bones->remove(bones->size() - 1);
             break;
         }
 
         pos -= m_bone_trims[b.servo_id];
 
-        auto *info_b = new rbjson::Object();
+        auto* info_b = new rbjson::Object();
         info_b->set("len", b.length);
         info_b->set("angle", b.calcAbsAng(pos).rad());
         info_b->set("rmin", b.rel_min.rad());
@@ -94,23 +93,23 @@ void ArmWrapper::sendInfo() {
 }
 
 bool ArmWrapper::moveTo(double x, double y) {
-    if(!m_arm->syncBonesWithServos()) {
+    if (!m_arm->syncBonesWithServos()) {
         ESP_LOGE(TAG, "failed to syncBonsWithServos, are they connected correctly?");
         return false;
     }
 
-    if(!m_arm->solve(round(x), round(y)))
+    if (!m_arm->solve(round(x), round(y)))
         return false;
 
     auto& servos = Manager::get().servoBus();
-    for(const auto& b : m_arm->bones()) {
+    for (const auto& b : m_arm->bones()) {
         servos.set(b.def.servo_id, b.servoAng() + m_bone_trims[b.def.servo_id], 200);
     }
     return true;
 }
 
 void ArmWrapper::setGrabbing(bool grab) {
-    auto &servos = Manager::get().servoBus();
+    auto& servos = Manager::get().servoBus();
     const auto angle = grab ? 75_deg : 160_deg;
     servos.set(2, angle + m_bone_trims[2], 200.f, 1.f);
 }
@@ -119,10 +118,10 @@ bool ArmWrapper::isGrabbing() const {
     return Manager::get().servoBus().posOffline(2).deg() < 140;
 }
 
-bool ArmWrapper::getCurrentPosition(double &outX, double &outY) const {
+bool ArmWrapper::getCurrentPosition(double& outX, double& outY) const {
     outX = outY = 0;
 
-    if(!m_arm->syncBonesWithServos()) {
+    if (!m_arm->syncBonesWithServos()) {
         ESP_LOGE(TAG, "failed to syncBonsWithServos, are they connected correctly?");
         return false;
     }

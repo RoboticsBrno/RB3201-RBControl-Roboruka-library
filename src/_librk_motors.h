@@ -2,8 +2,8 @@
 
 #include <stdint.h>
 
-#include "roboruka.h"
 #include "RBControl_pinout.hpp"
+#include "roboruka.h"
 
 namespace rk {
 

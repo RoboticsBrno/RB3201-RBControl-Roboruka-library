@@ -20,9 +20,9 @@ public:
 
     void setup(const rkConfig& cfg);
 
-    rb::Protocol *prot() const { return m_prot; }
-    ArmWrapper &arm() { return m_arm; }
-    Motors &motors() { return m_motors; }
+    rb::Protocol* prot() const { return m_prot; }
+    ArmWrapper& arm() { return m_arm; }
+    Motors& motors() { return m_motors; }
     mcp3008::LineSensor& line();
 
     void saveLineCalibration();
@@ -34,7 +34,7 @@ private:
     ArmWrapper m_arm;
     Motors m_motors;
     WiFi m_wifi;
-    rb::Protocol *m_prot;
+    rb::Protocol* m_prot;
     rb::Protocol::callback_t m_prot_callback;
 
     std::atomic<bool> m_initialized;

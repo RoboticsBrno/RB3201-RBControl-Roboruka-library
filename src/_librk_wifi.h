@@ -6,7 +6,8 @@
 #ifndef RK_DISABLE_BLE
 #include <BLEServer.h>
 #else
-class BLECharacteristicCallbacks {};
+class BLECharacteristicCallbacks {
+};
 typedef void BLECharacteristic;
 typedef int Status;
 #endif
@@ -26,9 +27,9 @@ public:
 
     void disableBle();
 
-    virtual void onRead(BLECharacteristic* ) { }
-    virtual void onNotify(BLECharacteristic* ) { }
-    virtual void onStatus(BLECharacteristic*, Status, uint32_t ) { }
+    virtual void onRead(BLECharacteristic*) {}
+    virtual void onNotify(BLECharacteristic*) {}
+    virtual void onStatus(BLECharacteristic*, Status, uint32_t) {}
 
     virtual void onWrite(BLECharacteristic* chr);
 
@@ -58,12 +59,12 @@ private:
     bool updateIpChar();
 
     bool m_ip_update_running;
-    BLECharacteristic *m_ip_char;
+    BLECharacteristic* m_ip_char;
 
     uint32_t m_battery_level;
 
     bool m_ble_running;
-    BLEServer *m_server;
+    BLEServer* m_server;
     std::vector<BLEService*> m_services;
     std::vector<BLECharacteristic*> m_chars;
 #endif

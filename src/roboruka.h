@@ -10,8 +10,8 @@
 
 #include <memory>
 
-#include "rbprotocol.h"
 #include "gridui.h"
+#include "rbprotocol.h"
 
 using namespace gridui;
 
@@ -28,11 +28,13 @@ using namespace gridui;
  *
  * Zde můžete přenastavit piny, pokud máte periferie připojené na desce na jíném pinu.
  */
-struct rkPinsConfig  {
-    rkPinsConfig() :
-        arm_servos(32),
-        line_cs(4), line_mosi(14), line_miso(27), line_sck(26)
-    {
+struct rkPinsConfig {
+    rkPinsConfig()
+        : arm_servos(32)
+        , line_cs(4)
+        , line_mosi(14)
+        , line_miso(27)
+        , line_sck(26) {
     }
 
     uint8_t arm_servos; //!< Signál pro serva ruky. Výchozí: pin 32
@@ -42,7 +44,6 @@ struct rkPinsConfig  {
     uint8_t line_miso;
     uint8_t line_sck;
 };
-
 
 #define RK_DEFAULT_WIFI_AP_PASSWORD "flusflus" //!< Výchozí heslo pro WiFi AP
 
@@ -54,34 +55,39 @@ struct rkPinsConfig  {
  * a není třeba nastavovat všechny, ale jen ty, které chcete změnit.
  */
 struct rkConfig {
-    rkConfig() :
-        rbcontroller_app_enable(false),
-        owner(""), name(""),
-        battery_coefficient(1.0),
-        wifi_name(""), wifi_password(""),
-        wifi_default_ap(false), wifi_ap_password(RK_DEFAULT_WIFI_AP_PASSWORD), wifi_ap_channel(1),
-        motor_id_left(2), motor_id_right(1), motor_max_power_pct(60),
-        motor_polarity_switch_left(false), motor_polarity_switch_right(false),
-        motor_enable_failsafe(false),
-        arm_bone_trims{ 0, 0, 0 }
-    {
+    rkConfig()
+        : rbcontroller_app_enable(false)
+        , owner("")
+        , name("")
+        , battery_coefficient(1.0)
+        , wifi_name("")
+        , wifi_password("")
+        , wifi_default_ap(false)
+        , wifi_ap_password(RK_DEFAULT_WIFI_AP_PASSWORD)
+        , wifi_ap_channel(1)
+        , motor_id_left(2)
+        , motor_id_right(1)
+        , motor_max_power_pct(60)
+        , motor_polarity_switch_left(false)
+        , motor_polarity_switch_right(false)
+        , motor_enable_failsafe(false)
+        , arm_bone_trims { 0, 0, 0 } {
     }
 
     bool rbcontroller_app_enable; //!< povolit komunikaci s aplikací RBController. Výchozí: `false`
     rb::Protocol::callback_t rbcontroller_message_callback; //!< funkce, která bude zavolána když přijde zpráva
-                                                            //!< z aplikace RBController. Výchozí: žádná
+        //!< z aplikace RBController. Výchozí: žádná
 
-
-    const char *owner; //!< Jméno vlastníka robota. Podle tohoto jména filtruje RBController roboty. Výchozí: `""`
-    const char *name; //!< Jméno robota. Výchozí: ""
+    const char* owner; //!< Jméno vlastníka robota. Podle tohoto jména filtruje RBController roboty. Výchozí: `""`
+    const char* name; //!< Jméno robota. Výchozí: ""
 
     float battery_coefficient; //!< koeficient pro kalibraci měření napětí baterie. Výchozí: `1.0`
 
-    const char *wifi_name; //!< Jméno WiFi sítě, na kterou se připojovat. Výchozí: `""`
-    const char *wifi_password; //!< Heslo k WiFi, na kterou se připojit. Výchozí: `""`
+    const char* wifi_name; //!< Jméno WiFi sítě, na kterou se připojovat. Výchozí: `""`
+    const char* wifi_password; //!< Heslo k WiFi, na kterou se připojit. Výchozí: `""`
 
     bool wifi_default_ap; //!< Vytvářet WiFi síť místo toho, aby se připojovalo k wifi_name. Výchozí: `false`
-    const char *wifi_ap_password; //!< Heslo k vytvořené síti. Výchozí: `"flusflus"`
+    const char* wifi_ap_password; //!< Heslo k vytvořené síti. Výchozí: `"flusflus"`
     uint8_t wifi_ap_channel; //!< Kanál WiFi vytvořené sítě. Výchozí: `1`
 
     uint8_t motor_id_left; //!< Které M číslo motoru patří levému, podle čísla na desce. Výchozí: `2`
@@ -92,13 +98,12 @@ struct rkConfig {
     bool motor_enable_failsafe; //!< Zastaví motory po 500ms, pokud není zavoláno rkSetMotorPower. Výchozí: `false`
 
     float arm_bone_trims[3]; //!< Korekce úhlů pro serva v ruce, ve stupních. Pole je indexované stejně, jako serva,
-                             //!< hodnota z tohoto pole je vždy přičtena k úhlu poslenému do serva.
-                             //!< Určeno pro korekci nepřesně postavených rukou, kde fyzické postavení ruky
-                             //!< neodpovídá vypočítanému postavení.
+        //!< hodnota z tohoto pole je vždy přičtena k úhlu poslenému do serva.
+        //!< Určeno pro korekci nepřesně postavených rukou, kde fyzické postavení ruky
+        //!< neodpovídá vypočítanému postavení.
 
     rkPinsConfig pins; //!< Konfigurace pinů pro periferie, viz rkPinsConfig
 };
-
 
 /**
  * \brief Inicializační funkce Roboruky
@@ -236,7 +241,6 @@ float rkArmGetServo(uint8_t id);
  */
 std::unique_ptr<rbjson::Object> rkArmGetInfo();
 
-
 /**@}*/
 /**
  * \defgroup battery Baterie
@@ -281,10 +285,10 @@ float rkBatteryCoef();
  * \param format Text k odeslání, může obsahovat formátovací značky jako C funkce printf().
  * \param ... argumenty pro format, funguje stejně jako printf().
  */
-void rkControllerSendLog(const char *format, ...);
+void rkControllerSendLog(const char* format, ...);
 
-void rkControllerSend(const char *cmd, rbjson::Object *data = nullptr);
-void rkControllerSendMustArrive(const char *cmd, rbjson::Object *data = nullptr);
+void rkControllerSend(const char* cmd, rbjson::Object* data = nullptr);
+void rkControllerSendMustArrive(const char* cmd, rbjson::Object* data = nullptr);
 
 /**@}*/
 /**
@@ -352,7 +356,6 @@ bool rkButtonIsPressed(uint8_t id, bool waitForRelease = true);
 void rkButtonWaitForRelease(uint8_t id);
 
 /**@}*/
-
 
 /**@}*/
 /**

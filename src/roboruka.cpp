@@ -1,8 +1,8 @@
-#include <stdio.h>
 #include <stdarg.h>
+#include <stdio.h>
 
-#include "roboruka.h"
 #include "_librk_context.h"
+#include "roboruka.h"
 
 #include "RBControl.hpp"
 
@@ -16,8 +16,8 @@ void rkSetup(const rkConfig& cfg) {
     gCtx.setup(cfg);
 }
 
-void rkControllerSendLog(const char *format, ...) {
-    if(gCtx.prot() == nullptr) {
+void rkControllerSendLog(const char* format, ...) {
+    if (gCtx.prot() == nullptr) {
         ESP_LOGE(TAG, "%s: protocol not initialized!", __func__);
         return;
     }
@@ -27,16 +27,16 @@ void rkControllerSendLog(const char *format, ...) {
     va_end(args);
 }
 
-void rkControllerSend(const char *cmd, rbjson::Object *data) {
-    if(gCtx.prot() == nullptr) {
+void rkControllerSend(const char* cmd, rbjson::Object* data) {
+    if (gCtx.prot() == nullptr) {
         ESP_LOGE(TAG, "%s: protocol not initialized!", __func__);
         return;
     }
     gCtx.prot()->send(cmd, data);
 }
 
-void rkControllerSendMustArrive(const char *cmd, rbjson::Object *data) {
-    if(gCtx.prot() == nullptr) {
+void rkControllerSendMustArrive(const char* cmd, rbjson::Object* data) {
+    if (gCtx.prot() == nullptr) {
         ESP_LOGE(TAG, "%s: protocol not initialized!", __func__);
         return;
     }
@@ -44,7 +44,7 @@ void rkControllerSendMustArrive(const char *cmd, rbjson::Object *data) {
 }
 
 bool rkArmMoveTo(double x, double y) {
-    if(!gCtx.arm().moveTo(x, y)) {
+    if (!gCtx.arm().moveTo(x, y)) {
         ESP_LOGE(TAG, "%s: can't move to %.1f %.1f, failed to solve the movement!", __func__, x, y);
         return false;
     }
@@ -125,52 +125,60 @@ void rkLedAll(bool on) {
 }
 
 void rkLedById(uint8_t id, bool on) {
-    if(id == 0) {
+    if (id == 0) {
         ESP_LOGE(TAG, "%s: invalid id %d, LEDs are indexed from 1, just like on the board (LED1, LED2...)!", __func__, id);
         return;
-    } else if(id > 4) {
+    } else if (id > 4) {
         ESP_LOGE(TAG, "%s: maximum LED id is 4, you are using %d!", __func__, id);
         return;
     }
 
     auto& l = Manager::get().leds();
-    switch(id) {
-        case 1: l.red(on); break;
-        case 2: l.yellow(on); break;
-        case 3: l.green(on); break;
-        case 4: l.blue(on); break;
+    switch (id) {
+    case 1:
+        l.red(on);
+        break;
+    case 2:
+        l.yellow(on);
+        break;
+    case 3:
+        l.green(on);
+        break;
+    case 4:
+        l.blue(on);
+        break;
     }
 }
 
 bool rkButtonIsPressed(uint8_t id, bool waitForRelease) {
-    if(id == 0) {
+    if (id == 0) {
         ESP_LOGE(TAG, "%s: invalid id %d, buttons are indexed from 1, just like on the board (SW1, SW2...)!", __func__, id);
         return false;
-    } else if(id > 3) {
+    } else if (id > 3) {
         ESP_LOGE(TAG, "%s: maximum button id is 3, you are using %d!", __func__, id);
         return false;
     }
 
     int pin = SW1 + (id - 1);
     auto& exp = Manager::get().expander();
-    for(int i = 0; i < 3; ++i) {
+    for (int i = 0; i < 3; ++i) {
         const bool pressed = exp.digitalRead(pin) == 0;
-        if(!pressed)
+        if (!pressed)
             return false;
         vTaskDelay(pdMS_TO_TICKS(10));
     }
 
-    if(waitForRelease) {
+    if (waitForRelease) {
         rkButtonWaitForRelease(id);
     }
     return true;
 }
 
 void rkButtonWaitForRelease(uint8_t id) {
-    if(id == 0) {
+    if (id == 0) {
         ESP_LOGE(TAG, "%s: invalid id %d, buttons are indexed from 1, just like on the board (SW1, SW2...)!", __func__, id);
         return;
-    } else if(id > 3) {
+    } else if (id > 3) {
         ESP_LOGE(TAG, "%s: maximum button id is 3, you are using %d!", __func__, id);
         return;
     }
@@ -178,10 +186,10 @@ void rkButtonWaitForRelease(uint8_t id) {
     int pin = SW1 + (id - 1);
     int counter = 0;
     auto& exp = Manager::get().expander();
-    while(true) {
+    while (true) {
         const bool pressed = exp.digitalRead(pin) == 0;
-        if(!pressed) {
-            if(++counter > 3)
+        if (!pressed) {
+            if (++counter > 3)
                 return;
         } else {
             counter = 0;
@@ -205,19 +213,19 @@ void rkLineCalibrate(float motor_time_coef) {
 
     gCtx.motors().set(-pwr, pwr, 100, 100);
 
-    for(int i = 0; i < 30*motor_time_coef; ++i) {
+    for (int i = 0; i < 30 * motor_time_coef; ++i) {
         cal.record();
         vTaskDelay(pdMS_TO_TICKS(20));
     }
 
     gCtx.motors().set(pwr, -pwr);
-    for(int i = 0; i < 50*motor_time_coef; ++i) {
+    for (int i = 0; i < 50 * motor_time_coef; ++i) {
         cal.record();
         vTaskDelay(pdMS_TO_TICKS(20));
     }
 
     gCtx.motors().set(-pwr, pwr);
-    for(int i = 0; i < 30*motor_time_coef; ++i) {
+    for (int i = 0; i < 30 * motor_time_coef; ++i) {
         cal.record();
         vTaskDelay(pdMS_TO_TICKS(20));
     }
@@ -230,7 +238,7 @@ void rkLineCalibrate(float motor_time_coef) {
 
 void rkLineClearCalibration() {
     LineSensor::CalibrationData cal;
-    for(int i = 0; i < Driver::CHANNELS; ++i) {
+    for (int i = 0; i < Driver::CHANNELS; ++i) {
         cal.min[i] = 0;
         cal.range[i] = Driver::MAX_VAL;
     }
@@ -243,5 +251,5 @@ uint16_t rkLineGetSensor(uint8_t sensorId) {
 }
 
 float rkLinePosition(bool white_line, uint8_t line_threshold_pct) {
-    return gCtx.line().readLine(white_line, float(line_threshold_pct)/100.f);
+    return gCtx.line().readLine(white_line, float(line_threshold_pct) / 100.f);
 }

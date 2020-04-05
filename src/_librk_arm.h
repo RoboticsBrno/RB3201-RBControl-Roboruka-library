@@ -22,12 +22,12 @@ public:
     void setGrabbing(bool grab);
     bool isGrabbing() const;
 
-    bool getCurrentPosition(double &outX, double &outY) const;
+    bool getCurrentPosition(double& outX, double& outY) const;
 
 private:
     ArmWrapper(const ArmWrapper&) = delete;
 
-    rb::Arm *m_arm;
+    rb::Arm* m_arm;
     std::vector<rb::Angle> m_bone_trims;
 };
 
