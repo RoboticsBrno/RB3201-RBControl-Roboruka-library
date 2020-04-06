@@ -1,9 +1,9 @@
 #include "nvs_flash.h"
 
 #include "RBControl.hpp"
-#include "RBControl_wifi.hpp"
 #include "rbprotocol.h"
 #include "rbwebserver.h"
+#include "rbwifi.h"
 #include <stdio.h>
 
 #include "_librk_context.h"

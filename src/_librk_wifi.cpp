@@ -4,7 +4,7 @@
 #include <esp_wifi.h>
 
 #include <RBControl.hpp>
-#include <RBControl_wifi.hpp>
+#include <rbwifi.h>
 
 #include "_librk_wifi.h"
 
