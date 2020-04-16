@@ -25,7 +25,7 @@
     },
     {
       "name": "RB3201-RBProtocol",
-      "version": "https://github.com/RoboticsBrno/RB3201-RBProtocol-library/archive/v9.0.0.zip"
+      "version": "https://github.com/RoboticsBrno/RB3201-RBProtocol-library/archive/v10.0.1.zip"
     },
     {
       "name": "Esp32-Mcp3008-LineSensor",
@@ -33,7 +33,7 @@
     },
     {
       "name": "Esp32-RBGridUI",
-      "version": "https://github.com/RoboticsBrno/Esp32-RBGridUI/archive/v0.2.1.zip"
+      "version": "https://github.com/RoboticsBrno/Esp32-RBGridUI/archive/v1.0.0.zip"
     }
   ],
   "build": {
