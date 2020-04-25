@@ -110,12 +110,14 @@ void WiFi::setupWifi(const Config& cfg) {
 
 void WiFi::disableBle() {
 #ifndef RK_DISABLE_BLE
-    const std::lock_guard<std::mutex> lock(m_mutex);
-    if (!m_ble_running)
-        return;
+    {
+        const std::lock_guard<std::mutex> lock(m_mutex);
+        if (!m_ble_running)
+            return;
 
-    m_ip_char = nullptr;
-    m_ble_running = false;
+        m_ip_char = nullptr;
+        m_ble_running = false;
+    }
 
     // There is no way to cleanly destroy all the Arduino stuff, try our best :/
     for (auto* s : m_services) {
