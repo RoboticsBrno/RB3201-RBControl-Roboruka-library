@@ -120,9 +120,10 @@ void WiFi::disableBle() {
     }
 
     // There is no way to cleanly destroy all the Arduino stuff, try our best :/
-    for (auto* s : m_services) {
+    // The commented out stuff are not safe.
+    /*for (auto* s : m_services) {
         m_server->removeService(s);
-    }
+    }*/
 
     BLEDevice::getAdvertising()->stop();
 
@@ -130,18 +131,18 @@ void WiFi::disableBle() {
     esp_bt_mem_release(ESP_BT_MODE_BTDM);
 
     delete BLEDevice::getAdvertising();
-    delete m_server;
+    //delete m_server;
     m_server = nullptr;
 
-    for (auto* c : m_chars) {
+    /*for (auto* c : m_chars) {
         delete c;
-    }
+    }*/
     m_chars.clear();
     m_chars.shrink_to_fit();
 
-    for (auto* s : m_services) {
+    /*for (auto* s : m_services) {
         delete s;
-    }
+    }*/
     m_services.clear();
     m_services.shrink_to_fit();
 #endif
