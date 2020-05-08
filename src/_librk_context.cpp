@@ -32,6 +32,8 @@ void Context::setup(const rkConfig& cfg) {
         return;
     }
 
+    rb::Timers::deleteFreeRtOsTimerTask();
+
     // Initialize the robot manager
     auto& man = Manager::get();
 
