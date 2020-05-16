@@ -372,6 +372,8 @@ bool rkButtonIsPressed(uint8_t id, bool waitForRelease = false);
 
 /**
  * \brief Počkat, dokud není tlačítko uvolněno.
+ * 
+ * Pokud tlačítko není stisknuté, počká pouze několik desítek ms, tedy nečeká na stisknutí.
  *
  * \param id číslo tlačítka jako na desce, od 1 do 3 včetně.
  */
