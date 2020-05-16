@@ -267,6 +267,6 @@ uint16_t rkLineGetSensor(uint8_t sensorId) {
     return gCtx.line().calibratedReadChannel(sensorId);
 }
 
-float rkLinePosition(bool white_line, uint8_t line_threshold_pct) {
+float rkLineGetPosition(bool white_line, uint8_t line_threshold_pct) {
     return gCtx.line().readLine(white_line, float(line_threshold_pct) / 100.f);
 }

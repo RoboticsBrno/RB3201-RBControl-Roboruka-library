@@ -425,12 +425,12 @@ uint16_t rkLineGetSensor(uint8_t sensorId);
  *
  * Tato funkce se pokouší najít černou čáru pod senzory.
  *
- * \param whíte_line nastavte na true, pokud sledujete bílou čáru na černém podkladu. Výchozí: false
+ * \param white_line nastavte na true, pokud sledujete bílou čáru na černém podkladu. Výchozí: false
  * \param line_threshold_pct Jak velký rozdíl v procentech musí mezi hodnotami být, aby byla čára považována za nalezenou. Výchozí: 25%
  * \return Desetinná hodnota od -1 do +1. -1 znamená, že čára je úplně vlevo, 0 že je uprostřed a 1 že je úplně vpravo.
  *         Vrátí NaN, pokud nenalezne čáru - výsledek otestujte funkcí isnan() - `isnan(line_position)`
  */
-float rkLinePosition(bool white_line = false, uint8_t line_threshold_pct = 25);
+float rkLineGetPosition(bool white_line = false, uint8_t line_threshold_pct = 25);
 
 /**@}*/
 
