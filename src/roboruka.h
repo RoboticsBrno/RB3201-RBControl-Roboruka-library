@@ -343,10 +343,10 @@ void rkLedById(uint8_t id, bool on = true);
  * \brief Je teď stisknuto tlačítko?
  *
  * \param id číslo tlačítka jako na desce, od 1 do 3 včetně.
- * \param waitForRelease pokud je stisknuto, počká před vrácením výsledku na jeho uvolnění.
+ * \param waitForRelease pokud je stisknuto, počká před vrácením výsledku na jeho uvolnění (default: false)
  * \return Vrátí `true` pokud je tlačítko stisknuto.
  */
-bool rkButtonIsPressed(uint8_t id, bool waitForRelease = true);
+bool rkButtonIsPressed(uint8_t id, bool waitForRelease = false);
 
 /**
  * \brief Počkat, dokud není tlačítko uvolněno.
