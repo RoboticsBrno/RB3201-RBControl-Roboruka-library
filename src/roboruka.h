@@ -130,6 +130,28 @@ void rkSetup(const rkConfig& cfg = rkConfig());
 void rkMotorsSetPower(int8_t left, int8_t right);
 
 /**
+ * \brief Nastavení výkonu levého motoru.
+ *
+ * \param power výkon levého motoru od od -100 do 100
+ */
+void rkMotorsSetPowerLeft(int8_t power);
+
+/**
+ * \brief Nastavení výkonu pravého motoru.
+ *
+ * \param power výkon levého motoru od od -100 do 100
+ */
+void rkMotorsSetPowerRight(int8_t power);
+
+/**
+ * \brief Nastavení výkonu motoru podle jeho čísla (M1...M8) na desce.
+ *
+ * \param id číslo motoru od 1 do 8 včetně
+ * \param power výkon motoru od od -100 do 100
+ */
+void rkMotorsSetPowerById(int id, int8_t power);
+
+/**
  * \brief Nastavení motorů podle joysticku.
  *
  * Tato funkce nastaví výkon motorů podle výstupu z joysticku. Očekává dvě
