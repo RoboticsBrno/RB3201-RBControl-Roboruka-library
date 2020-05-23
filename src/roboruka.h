@@ -75,8 +75,6 @@ struct rkConfig {
     }
 
     bool rbcontroller_app_enable; //!< povolit komunikaci s aplikací RBController. Výchozí: `false`
-    rb::Protocol::callback_t rbcontroller_message_callback; //!< funkce, která bude zavolána když přijde zpráva
-        //!< z aplikace RBController. Výchozí: žádná
 
     const char* owner; //!< Jméno vlastníka robota. Podle tohoto jména filtruje RBController roboty. Výchozí: `""`
     const char* name; //!< Jméno robota. Výchozí: ""

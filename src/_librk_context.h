@@ -35,7 +35,6 @@ private:
     Motors m_motors;
     WiFi m_wifi;
     rb::Protocol* m_prot;
-    rb::Protocol::callback_t m_prot_callback;
 
     std::atomic<bool> m_initialized;
 
