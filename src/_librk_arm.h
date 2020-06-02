@@ -2,10 +2,10 @@
 
 #include <memory>
 
+#include "roboruka.h"
+
 #include "RBControl_arm.hpp"
 #include "rbprotocol.h"
-
-#include "roboruka.h"
 
 namespace rk {
 

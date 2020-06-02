@@ -10,6 +10,8 @@
 
 #include <memory>
 
+#include <Arduino.h>
+
 #include "gridui.h"
 #include "rbprotocol.h"
 

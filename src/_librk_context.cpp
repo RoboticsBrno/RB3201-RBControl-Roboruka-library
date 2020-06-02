@@ -1,5 +1,7 @@
 #include "nvs_flash.h"
 
+#include "roboruka.h"
+
 #include "RBControl.hpp"
 #include "rbprotocol.h"
 #include "rbwebserver.h"
@@ -7,7 +9,6 @@
 #include <stdio.h>
 
 #include "_librk_context.h"
-#include "roboruka.h"
 
 using namespace rb;
 using namespace mcp3008;

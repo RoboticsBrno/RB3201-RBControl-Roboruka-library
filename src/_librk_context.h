@@ -3,7 +3,6 @@
 #include <atomic>
 
 #include "RBControl_arm.hpp"
-#include "rbprotocol.h"
 
 #include "mcp3008_linesensor.h"
 
