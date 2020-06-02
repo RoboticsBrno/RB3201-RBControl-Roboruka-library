@@ -12,6 +12,11 @@ using namespace rb;
 using namespace rk;
 using namespace mcp3008;
 
+// Empty loop in case the user won't supply one
+void __attribute__((weak)) loop() {
+
+}
+
 void rkSetup(const rkConfig& cfg) {
     gCtx.setup(cfg);
 }
