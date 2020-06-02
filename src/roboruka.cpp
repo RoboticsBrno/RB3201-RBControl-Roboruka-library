@@ -96,6 +96,23 @@ void rkMotorsSetPower(int8_t left, int8_t right) {
     gCtx.motors().set(left, right);
 }
 
+void rkMotorsSetPowerLeft(int8_t power) {
+    gCtx.motors().setById(gCtx.motors().idLeft(), power);
+}
+
+void rkMotorsSetPowerRight(int8_t power) {
+    gCtx.motors().setById(gCtx.motors().idRight(), power);
+}
+
+void rkMotorsSetPowerById(int id, int8_t power) {
+    id -= 1;
+    if(id < 0 || id >= (int)rb::MotorId::MAX) {
+        ESP_LOGE(TAG, "%s: invalid motor id, %d is out of range <1;8>.", __func__, id+1);
+        return;
+    }
+    gCtx.motors().setById(rb::MotorId(id), power);
+}
+
 void rkMotorsJoystick(int32_t x, int32_t y) {
     gCtx.motors().joystick(x, y);
 }
@@ -250,6 +267,6 @@ uint16_t rkLineGetSensor(uint8_t sensorId) {
     return gCtx.line().calibratedReadChannel(sensorId);
 }
 
-float rkLinePosition(bool white_line, uint8_t line_threshold_pct) {
+float rkLineGetPosition(bool white_line, uint8_t line_threshold_pct) {
     return gCtx.line().readLine(white_line, float(line_threshold_pct) / 100.f);
 }

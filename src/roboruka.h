@@ -75,8 +75,6 @@ struct rkConfig {
     }
 
     bool rbcontroller_app_enable; //!< povolit komunikaci s aplikací RBController. Výchozí: `false`
-    rb::Protocol::callback_t rbcontroller_message_callback; //!< funkce, která bude zavolána když přijde zpráva
-        //!< z aplikace RBController. Výchozí: žádná
 
     const char* owner; //!< Jméno vlastníka robota. Podle tohoto jména filtruje RBController roboty. Výchozí: `""`
     const char* name; //!< Jméno robota. Výchozí: ""
@@ -128,6 +126,28 @@ void rkSetup(const rkConfig& cfg = rkConfig());
  * \param right výkon pravého motoru od od -100 do 100
  */
 void rkMotorsSetPower(int8_t left, int8_t right);
+
+/**
+ * \brief Nastavení výkonu levého motoru.
+ *
+ * \param power výkon levého motoru od od -100 do 100
+ */
+void rkMotorsSetPowerLeft(int8_t power);
+
+/**
+ * \brief Nastavení výkonu pravého motoru.
+ *
+ * \param power výkon levého motoru od od -100 do 100
+ */
+void rkMotorsSetPowerRight(int8_t power);
+
+/**
+ * \brief Nastavení výkonu motoru podle jeho čísla (M1...M8) na desce.
+ *
+ * \param id číslo motoru od 1 do 8 včetně
+ * \param power výkon motoru od od -100 do 100
+ */
+void rkMotorsSetPowerById(int id, int8_t power);
 
 /**
  * \brief Nastavení motorů podle joysticku.
@@ -343,13 +363,15 @@ void rkLedById(uint8_t id, bool on = true);
  * \brief Je teď stisknuto tlačítko?
  *
  * \param id číslo tlačítka jako na desce, od 1 do 3 včetně.
- * \param waitForRelease pokud je stisknuto, počká před vrácením výsledku na jeho uvolnění.
+ * \param waitForRelease pokud je stisknuto, počká před vrácením výsledku na jeho uvolnění (default: false)
  * \return Vrátí `true` pokud je tlačítko stisknuto.
  */
-bool rkButtonIsPressed(uint8_t id, bool waitForRelease = true);
+bool rkButtonIsPressed(uint8_t id, bool waitForRelease = false);
 
 /**
  * \brief Počkat, dokud není tlačítko uvolněno.
+ * 
+ * Pokud tlačítko není stisknuté, počká pouze několik desítek ms, tedy nečeká na stisknutí.
  *
  * \param id číslo tlačítka jako na desce, od 1 do 3 včetně.
  */
@@ -403,12 +425,12 @@ uint16_t rkLineGetSensor(uint8_t sensorId);
  *
  * Tato funkce se pokouší najít černou čáru pod senzory.
  *
- * \param whíte_line nastavte na true, pokud sledujete bílou čáru na černém podkladu. Výchozí: false
+ * \param white_line nastavte na true, pokud sledujete bílou čáru na černém podkladu. Výchozí: false
  * \param line_threshold_pct Jak velký rozdíl v procentech musí mezi hodnotami být, aby byla čára považována za nalezenou. Výchozí: 25%
  * \return Desetinná hodnota od -1 do +1. -1 znamená, že čára je úplně vlevo, 0 že je uprostřed a 1 že je úplně vpravo.
  *         Vrátí NaN, pokud nenalezne čáru - výsledek otestujte funkcí isnan() - `isnan(line_position)`
  */
-float rkLinePosition(bool white_line = false, uint8_t line_threshold_pct = 25);
+float rkLineGetPosition(bool white_line = false, uint8_t line_threshold_pct = 25);
 
 /**@}*/
 

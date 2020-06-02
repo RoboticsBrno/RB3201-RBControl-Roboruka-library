@@ -16,6 +16,7 @@ public:
 
     void set(int8_t left, int8_t right);
     void set(int8_t left, int8_t right, uint8_t power_left, uint8_t power_right);
+    void setById(rb::MotorId id, int8_t power);
     void joystick(int32_t x, int32_t y);
 
     rb::MotorId idLeft() const { return m_id_left; }
