@@ -32,6 +32,15 @@ void rkControllerSendLog(const char* format, ...) {
     va_end(args);
 }
 
+void rkControllerSendLog(const std::string& text) {
+     if (gCtx.prot() == nullptr) {
+        ESP_LOGE(TAG, "%s: protocol not initialized!", __func__);
+        return;
+    }
+
+    gCtx.prot()->send_log(text);
+}
+
 void rkControllerSend(const char* cmd, rbjson::Object* data) {
     if (gCtx.prot() == nullptr) {
         ESP_LOGE(TAG, "%s: protocol not initialized!", __func__);

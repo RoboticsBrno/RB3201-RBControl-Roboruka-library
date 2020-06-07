@@ -311,6 +311,7 @@ float rkBatteryCoef();
  * \param ... argumenty pro format, funguje stejně jako printf().
  */
 void rkControllerSendLog(const char* format, ...);
+void rkControllerSendLog(const std::string& text);
 
 void rkControllerSend(const char* cmd, rbjson::Object* data = nullptr);
 void rkControllerSendMustArrive(const char* cmd, rbjson::Object* data = nullptr);
