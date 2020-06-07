@@ -10,6 +10,8 @@
 
 #include <memory>
 
+#include <fmt/core.h>
+
 #include <Arduino.h>
 
 #include "gridui.h"
