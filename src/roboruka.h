@@ -11,6 +11,7 @@
 #include <memory>
 
 #include <fmt/core.h>
+#include <fmt/printf.h>
 
 #include <Arduino.h>
 
