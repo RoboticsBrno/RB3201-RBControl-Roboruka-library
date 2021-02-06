@@ -1,9 +1,10 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
-<meta name="generator" content="Doxygen 1.8.11"/>
+<meta name="generator" content="Doxygen 1.9.1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Roboruka: Inicializace</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
@@ -11,9 +12,6 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
-<script type="text/javascript">
-  $(document).ready(function() { init_search(); });
-</script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -32,34 +30,22 @@
 </table>
 </div>
 <!-- end header part -->
-<!-- Generováno programem Doxygen 1.8.11 -->
+<!-- Generováno programem Doxygen 1.9.1 -->
 <script type="text/javascript">
-var searchBox = new SearchBox("searchBox", "search",false,'Hledat');
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Hledat','.html');
+/* @license-end */
 </script>
-  <div id="navrow1" class="tabs">
-    <ul class="tablist">
-      <li><a href="index.html"><span>Hlavní&#160;stránka</span></a></li>
-      <li class="current"><a href="modules.html"><span>Moduly</span></a></li>
-      <li><a href="annotated.html"><span>Třídy</span></a></li>
-      <li><a href="files.html"><span>Soubory</span></a></li>
-      <li>
-        <div id="MSearchBox" class="MSearchBoxInactive">
-        <span class="left">
-          <img id="MSearchSelect" src="search/mag_sel.png"
-               onmouseover="return searchBox.OnSearchSelectShow()"
-               onmouseout="return searchBox.OnSearchSelectHide()"
-               alt=""/>
-          <input type="text" id="MSearchField" value="Hledat" accesskey="S"
-               onfocus="searchBox.OnSearchFieldFocus(true)" 
-               onblur="searchBox.OnSearchFieldFocus(false)" 
-               onkeyup="searchBox.OnSearchFieldChange(event)"/>
-          </span><span class="right">
-            <a id="MSearchClose" href="javascript:searchBox.CloseResultsWindow()"><img id="MSearchCloseImg" border="0" src="search/close.png" alt=""/></a>
-          </span>
-        </div>
-      </li>
-    </ul>
-  </div>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Hledat');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
 </div><!-- top -->
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
@@ -96,7 +82,7 @@ Třídy</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Definice maker</h2></td></tr>
-<tr class="memitem:ga774729cebfd08838fd6f5bec88b15b11"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga774729cebfd08838fd6f5bec88b15b11"></a>
+<tr class="memitem:ga774729cebfd08838fd6f5bec88b15b11"><td class="memItemLeft" align="right" valign="top"><a id="ga774729cebfd08838fd6f5bec88b15b11"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__general.html#ga774729cebfd08838fd6f5bec88b15b11">RK_DEFAULT_WIFI_AP_PASSWORD</a>&#160;&#160;&#160;&quot;flusflus&quot;</td></tr>
 <tr class="memdesc:ga774729cebfd08838fd6f5bec88b15b11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Výchozí heslo pro WiFi AP. <br /></td></tr>
 <tr class="separator:ga774729cebfd08838fd6f5bec88b15b11"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -104,13 +90,15 @@ Definice maker</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Funkce</h2></td></tr>
 <tr class="memitem:ga8ec76111b1acaa90d2a1a3b0947ccb67"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__general.html#ga8ec76111b1acaa90d2a1a3b0947ccb67">rkSetup</a> (const <a class="el" href="structrkConfig.html">rkConfig</a> &amp;cfg=<a class="el" href="structrkConfig.html">rkConfig</a>())</td></tr>
-<tr class="memdesc:ga8ec76111b1acaa90d2a1a3b0947ccb67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inicializační funkce Roboruky.  <a href="#ga8ec76111b1acaa90d2a1a3b0947ccb67">...</a><br /></td></tr>
+<tr class="memdesc:ga8ec76111b1acaa90d2a1a3b0947ccb67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inicializační funkce Roboruky.  <a href="group__general.html#ga8ec76111b1acaa90d2a1a3b0947ccb67">...</a><br /></td></tr>
 <tr class="separator:ga8ec76111b1acaa90d2a1a3b0947ccb67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailní popis</h2>
 <p>Tato sekce je určená k počátečnímu nastavení knihovny Roboruka. </p>
 <h2 class="groupheader">Dokumentace funkcí</h2>
-<a class="anchor" id="ga8ec76111b1acaa90d2a1a3b0947ccb67"></a>
+<a id="ga8ec76111b1acaa90d2a1a3b0947ccb67"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga8ec76111b1acaa90d2a1a3b0947ccb67">&#9670;&nbsp;</a></span>rkSetup()</h2>
+
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -125,16 +113,14 @@ Funkce</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Inicializační funkce Roboruky. </p>
-<p>Tuhle funci MUSÍTE zavolat vždy na začátku vaší funkce setup() v main.cpp. Můžete jí předat nastavení ve formě struktury <a class="el" href="structrkConfig.html" title="Nastavení SW pro Roboruku. ">rkConfig</a>. </p>
+<p>Tuhle funci MUSÍTE zavolat vždy na začátku vaší funkce setup() v main.cpp. Můžete jí předat nastavení ve formě struktury <a class="el" href="structrkConfig.html" title="Nastavení SW pro Roboruku.">rkConfig</a>. </p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generováno so 6. úno 2021 13.07:18 pro projekt Roboruka programem &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.11
+Generováno so 6. úno 2021 13.32:50 pro projekt Roboruka programem&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>
