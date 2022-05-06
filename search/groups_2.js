@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['inicializace_214',['Inicializace',['../group__general.html',1,'']]]
+  ['inicializace_0',['Inicializace',['../group__general.html',1,'']]]
 ];
